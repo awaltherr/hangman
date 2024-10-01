@@ -2,7 +2,11 @@ import random
 import time
 import os
 
-words_list = ("apple", "banana", "cherry", "date", "elderflower", "laptop", "roundabout", "robot", "memory", "electronic", "submarine", "chess", "vortex", "matrix", "telephone", "titanic", "bridge", "tower", "global", "mouse", "universe", "pyramid", "error", "success", "language", "elevator", "internet", "parameter", "traffic", "filter", "picture", "country", "beautiful", "lobster", "mission", "poetry", "landmark", "certificate")
+def load_words():
+    with open('words.txt', 'r') as f:
+        return [line.strip() for line in f]
+    
+words_list = load_words()
 
 print("\nWelcome to the game of Hangman.")
 player_name = input("Enter your name: ")

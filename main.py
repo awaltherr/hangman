@@ -76,8 +76,6 @@ def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def display_hangman(incorrect_guesses):
-    print(f"\nIncorrect guesses = {incorrect_guesses}")
-    print("\n**************")
     for row in hangman_stages[incorrect_guesses]:
         print(row)
     print("\n**************")
@@ -93,12 +91,19 @@ def main():
      hint = ["_"] * len(secret_word)
      incorrect_guesses = 0
      guessed_chars = set()
+     incorrect_chars = set()
      is_running = True
 
      while is_running:
          clear_screen()
          display_hangman(incorrect_guesses)
          available_chars(hint)
+
+         if incorrect_guesses:
+             print(f"\nIncorrect guesses: {', '.join(sorted(incorrect_chars))}") 
+         else:
+             print("\nIncorrect characters: None")
+
          guess = input("\nEnter a letter to solve the unknown word: ").lower()
 
          if len(guess) != 1 or not guess.isalpha():
@@ -119,8 +124,10 @@ def main():
                      hint[index] = guess
          else: 
              incorrect_guesses += 1
+             incorrect_chars.add(guess)
 
          if "_" not in hint:
+            clear_screen()
             display_hangman(incorrect_guesses)
             display_solution(secret_word)
             print("\nGood job! You guessed the correct word!")
@@ -129,6 +136,7 @@ def main():
             is_running = False
             
          elif incorrect_guesses >= len(hangman_stages) - 1:
+            clear_screen()
             display_hangman(incorrect_guesses)
             display_solution(secret_word)
             print("\nSorry you ran out of guesses.")
